@@ -42,6 +42,7 @@ export const useCitiesStore = defineStore("cities", {
     forecastData: null as OpenWeatherApiForecastResponseData | null,
     forecastUpdatedAt: null as Date | null,
     forecastErrorMessage: "",
+    forecastUnits: "metric" as "standard" | "metric" | "imperial",
   }),
   actions: {
     async updateForecast() {
@@ -55,6 +56,7 @@ export const useCitiesStore = defineStore("cities", {
         this.forecastData = await requester.openWeather.forecast5d3h({
           lat: this.selectedCity.lat,
           lon: this.selectedCity.lon,
+          units: this.forecastUnits,
         });
       } catch (err: any) {
         this.forecastErrorMessage = err?.message || err?.toString();
