@@ -1,8 +1,17 @@
 <template>
-  <!-- NEXT HOURS -->
-  <WeatherNextHours v-if="forecastData" :forecastData="forecastData" />
-  <!-- NEXT DAYS -->
-  <WeatherNexDays v-if="forecastData" :forecastData="forecastData" />
+  <div v-if="!forecastData">
+    <div class="text-neutral-700 text-xl">Loading...</div>
+  </div>
+  <div v-else>
+    <h1 class="mb-3 text-xl sm:text-2xl text-center">
+      <span>{{ selectedCity.city_name }}</span>
+      <span class="text-neutral-700"> ({{ selectedCity.country_code }}) </span>
+    </h1>
+    <!-- NEXT HOURS -->
+    <WeatherNextHours v-if="forecastData" :forecastData="forecastData" />
+    <!-- NEXT DAYS -->
+    <WeatherNexDays v-if="forecastData" :forecastData="forecastData" />
+  </div>
 </template>
 
 <script setup lang="ts">

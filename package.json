@@ -9,13 +9,17 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@headlessui/vue": "^1.7.22",
+    "@heroicons/vue": "^2.1.5",
     "lodash": "^4.17.21",
+    "papaparse": "^5.4.1",
     "pinia": "^2.2.1",
     "vue": "^3.4.35",
     "vue-router": "^4.4.3"
   },
   "devDependencies": {
     "@types/lodash": "^4.17.7",
+    "@types/papaparse": "^5.3.14",
     "@vitejs/plugin-vue": "^5.1.2",
     "autoprefixer": "^10.4.20",
     "postcss": "^8.4.41",

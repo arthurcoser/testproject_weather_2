@@ -1,6 +1,8 @@
 <template>
-  <div class="flex flex-col divide-y mb-4 pt-2 shadow rounded bg-white">
-    <h1 class="text-2xl px-3 mb-2">Next {{ nextDays.length }} days</h1>
+  <div class="flex flex-col divide-y mb-4 py-2 shadow rounded bg-white">
+    <h1 class="text-xl sm:text-2xl px-3 mb-2">
+      Next {{ nextDays.length }} days
+    </h1>
     <div class="flex flex-col divide-y">
       <div v-for="data in nextDays" :key="data.day" class="mx-4">
         <WeatherDay :data="data" class="my-2" />
@@ -61,7 +63,6 @@ const nextDays = computed<WeatherDayData[]>(() => {
   return keys.map((key) => {
     const items = days[key];
     const mostCommonMains = mostCommon(items.map((item) => item.main));
-    console.log(mostCommonMains);
     const mostCommonRelevant = minBy(
       items.filter((item) => mostCommonMains.includes(item.main)),
       (item) => item.id,

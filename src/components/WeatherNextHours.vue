@@ -1,6 +1,6 @@
 <template>
   <div class="flex flex-col divide-y mb-4 pt-2 shadow rounded bg-white">
-    <h1 class="text-2xl px-3 mb-2">Next hours</h1>
+    <h1 class="text-xl sm:text-2xl px-3 mb-2">Next hours</h1>
     <div class="flex flex-nowrap overflow-x-auto divide-x">
       <div v-for="data in nextHours" :key="data.dt" class="my-4">
         <WeatherHour :data="data" class="mx-2" />

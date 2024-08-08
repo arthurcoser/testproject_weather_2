@@ -1,9 +1,9 @@
 export interface City {
-  id: number;
-  name: string;
-  stateCode: number | string;
-  countryCode: string;
-  countryFull: string;
+  city_id: number;
+  city_name: string;
+  state_code: number | string;
+  country_code: string;
+  country_full: string;
   lat: number;
   lon: number;
 }
