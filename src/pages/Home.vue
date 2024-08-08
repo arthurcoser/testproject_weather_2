@@ -1,11 +1,10 @@
 <template>
-  <h1 class="text-3xl font-medium mb-4">Simple Weather</h1>
   <div class="bg-blue-100 mb-4">
-    <h2 class="text-2xl">Current weather</h2>
+    <h1 class="text-2xl">Current weather</h1>
     <pre>{{ weatherData }}</pre>
   </div>
   <div class="bg-yellow-100 mb-4">
-    <h2 class="text-2xl">Forecast 5d 3h</h2>
+    <h1 class="text-2xl">Forecast 5d 3h</h1>
     <pre>{{ forecastData }}</pre>
   </div>
 </template>
