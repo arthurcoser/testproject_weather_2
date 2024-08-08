@@ -9,13 +9,13 @@
     <div class="bg-neutral-100">
       <div class="container mx-auto">
         <button
-          v-for="city in cities"
+          v-for="city in defaultCities"
           :key="city.id"
           :class="[
             'py-1 px-3 border-b-2 hover:bg-black/5',
-            `${selectedCityId === city.id ? 'border-b-orange-500 text-neutral-950' : 'border-b-neutral-100 text-neutral-950/50'}`,
+            `${selectedCity.id === city.id ? 'border-b-orange-500 text-neutral-950' : 'border-b-neutral-100 text-neutral-950/50'}`,
           ]"
-          @click="selectedCityId = city.id"
+          @click="citiesStore.selectCity(city.id)"
         >
           {{ city.name }}
         </button>
@@ -44,41 +44,13 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
-import { City } from "../types/custom.types";
+import { computed } from "vue";
+import { useCitiesStore } from "../store/cities.store";
 
 // DATA
 
 const appTitle = import.meta.env.VITE_APP_TITLE;
-
-const selectedCityId = ref(3451190);
-const cities: City[] = [
-  {
-    id: 3451190,
-    name: "Rio de Janeiro",
-    stateCode: 21,
-    countryCode: "BR",
-    countryFull: "Brazil",
-    lat: -22.90278,
-    lon: -43.2075,
-  },
-  {
-    id: 1816670,
-    name: "Beijing",
-    stateCode: 22,
-    countryCode: "CN",
-    countryFull: "Paracel Islands",
-    lat: 39.9075,
-    lon: 116.39723,
-  },
-  {
-    id: 5368361,
-    name: "Los Angeles",
-    stateCode: "CA",
-    countryCode: "US",
-    countryFull: "United States",
-    lat: 34.05223,
-    lon: -118.24368,
-  },
-];
+const citiesStore = useCitiesStore();
+const selectedCity = computed(() => citiesStore.selectedCity);
+const defaultCities = computed(() => citiesStore.defaultCities);
 </script>

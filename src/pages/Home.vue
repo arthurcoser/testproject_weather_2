@@ -1,17 +1,51 @@
 <template>
   <div class="bg-blue-100 mb-4">
     <h1 class="text-2xl">Current weather</h1>
-    <pre>{{ weatherData }}</pre>
+    <div v-if="weatherData">
+      <div>{{ weatherData.main.temp.toFixed(0) }}°C</div>
+      <div class="text-sm text-blue-900">
+        {{ weatherData.main.humidity.toFixed(0) }}%
+      </div>
+      <img
+        :src="iconSrc(weatherData.weather?.[0].icon, '@2x')"
+        :alt="weatherData.weather?.[0].description"
+      />
+      <div>
+        {{
+          new Date(
+            weatherData.dt * 1000 + weatherData.timezone * 1000,
+          ).toLocaleTimeString("en", {
+            timeZone: "UTC",
+            hour: "2-digit",
+            minute: "2-digit",
+            hour12: true,
+          })
+        }}
+      </div>
+      <div class="text-sm">
+        {{
+          new Date(
+            weatherData.dt * 1000 + weatherData.timezone * 1000,
+          ).toLocaleDateString("en", {
+            timeZone: "UTC",
+            month: "short",
+            day: "2-digit",
+          })
+        }}
+      </div>
+    </div>
+    <!-- <pre>{{ weatherData }}</pre> -->
   </div>
   <div class="bg-yellow-100 mb-4">
     <h1 class="text-2xl">Forecast 5d 3h</h1>
-    <pre>{{ forecastData }}</pre>
+    <!-- <pre>{{ forecastData }}</pre> -->
   </div>
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref } from "vue";
+import { computed, onMounted, ref, watch } from "vue";
 import requester from "../requester";
+import { useCitiesStore } from "../store/cities.store";
 import {
   OpenWeatherApiForecastResponseData,
   OpenWeatherApiWeatherResponseData,
@@ -19,26 +53,32 @@ import {
 
 // DATA
 
+const citiesStore = useCitiesStore();
+
 const weatherData = ref<OpenWeatherApiWeatherResponseData | null>(null);
 const forecastData = ref<OpenWeatherApiForecastResponseData | null>(null);
 
-const city = {
-  id: 3451190,
-  name: "Rio de Janeiro",
-  stateCode: 21,
-  countryCode: "BR",
-  countryFull: "Brazil",
-  lat: -22.90278,
-  lon: -43.2075,
-};
+const selectedCity = computed(() => citiesStore.selectedCity);
+
+watch(
+  () => selectedCity.value,
+  (newVal) => {
+    getWeather({ lat: newVal.lat, lon: newVal.lon });
+    getForecast({ lat: newVal.lat, lon: newVal.lon });
+  },
+);
 
 // ON MOUNTED
 onMounted(() => {
-  getWeather({ lat: city.lat, lon: city.lon });
-  getForecast({ lat: city.lat, lon: city.lon });
+  getWeather({ lat: selectedCity.value.lat, lon: selectedCity.value.lon });
+  getForecast({ lat: selectedCity.value.lat, lon: selectedCity.value.lon });
 });
 
 // METHODS
+
+function iconSrc(icon: string, size = "") {
+  return `https://openweathermap.org/img/wn/${icon}${size}.png`;
+}
 
 async function getWeather(options: { lat: number; lon: number }) {
   const { lat, lon } = options;
