@@ -67,7 +67,7 @@
 
 <script setup lang="ts">
 import { useAppStore } from "../store/app.store";
-import CitiesSearch from "../components/CitiesSearch.vue";
+import CitiesSearch from "../components/cities/CitiesSearch.vue";
 import { ArrowPathIcon } from "@heroicons/vue/24/solid";
 
 // DATA

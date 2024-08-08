@@ -19,12 +19,15 @@
 </template>
 
 <script setup lang="ts">
-import { WeatherDayData } from "../types/custom.types.ts";
+import { WeatherDayData } from "../../types/custom.types.ts";
+
 // PROPS
 export interface Props {
   data: WeatherDayData;
 }
 defineProps<Props>();
+
+// METHODS
 
 function iconSrc(icon: string, size = "") {
   return `https://openweathermap.org/img/wn/${icon}${size}.png`;

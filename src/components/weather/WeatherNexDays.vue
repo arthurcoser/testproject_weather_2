@@ -14,16 +14,15 @@
 <script setup lang="ts">
 import { computed } from "vue";
 import { max, maxBy, minBy, uniq } from "lodash";
-import { OpenWeatherApiForecastResponseData } from "../types/open-weather.types";
-import { WeatherDayData } from "../types/custom.types";
-import WeatherDay from "../components/WeatherDay.vue";
-import { useAppStore } from "../store/app.store";
+import { useAppStore } from "../../store/app.store";
+import { OpenWeatherApiForecastResponseData } from "../../types/open-weather.types";
+import { WeatherDayData } from "../../types/custom.types";
+import WeatherDay from "./WeatherDay.vue";
 
 // PROPS
 export interface Props {
   forecastData: OpenWeatherApiForecastResponseData;
 }
-
 const props = defineProps<Props>();
 
 // DATA

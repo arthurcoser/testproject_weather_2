@@ -14,7 +14,6 @@
     </div>
     <InputCombobox
       v-if="showSearchBar"
-      ref="inputSearch"
       :items="appStore.itemsCities"
       item-title="city_name"
       @update:model-value="onUpdateModelValue"
@@ -31,13 +30,12 @@
 
 <script setup lang="ts">
 import { ref } from "vue";
-import { useAppStore } from "../store/app.store";
-import InputCombobox from "./input/InputCombobox.vue";
-import { City } from "../types/custom.types";
 import { MagnifyingGlassIcon } from "@heroicons/vue/24/solid";
+import { useAppStore } from "../../store/app.store";
+import { City } from "../../types/custom.types";
+import InputCombobox from "../input/InputCombobox.vue";
 
 // DATA
-const inputSearch = ref<HTMLElement | null>();
 
 const appStore = useAppStore();
 

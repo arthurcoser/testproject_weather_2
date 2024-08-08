@@ -51,7 +51,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted, nextTick } from "vue";
+import { ref, computed } from "vue";
 import {
   Combobox,
   ComboboxInput,
@@ -61,6 +61,7 @@ import {
 } from "@headlessui/vue";
 import { XMarkIcon } from "@heroicons/vue/24/solid";
 
+// PROPS
 export interface Props {
   items: any[];
   itemValue?: string;
@@ -70,6 +71,8 @@ const props = withDefaults(defineProps<Props>(), {
   itemValue: "",
   itemTitle: "title",
 });
+
+// DATA
 
 const selectedItem = defineModel<any>();
 const displayValue = (item: any) => item?.[props.itemTitle];

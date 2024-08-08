@@ -27,12 +27,15 @@
 
 <script setup lang="ts">
 import { computed } from "vue";
-import { WeatherHourData } from "../types/custom.types.ts";
+import { WeatherHourData } from "../../types/custom.types.ts";
+
 // PROPS
 export interface Props {
   data: WeatherHourData;
 }
 const props = defineProps<Props>();
+
+// DATA
 
 const tempUnit = computed(() => {
   switch (props.data.units) {
@@ -44,6 +47,8 @@ const tempUnit = computed(() => {
       "K";
   }
 });
+
+// METHODS
 
 function iconSrc(icon: string, size = "") {
   return `https://openweathermap.org/img/wn/${icon}${size}.png`;

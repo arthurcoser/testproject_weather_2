@@ -1,11 +1,13 @@
 <template>
   <div v-if="!selectedCity || !forecastData">
+    <!-- LOADING MESSAGE -->
     <div
       v-if="!forecastErrorMessage"
       class="text-neutral-700 text-md sm:text-xl text-center"
     >
       Loading...
     </div>
+    <!-- ERROR MESSAGE -->
     <div v-else class="flex flex-col items-center justify-center">
       <div class="text-red-700 text-md sm:text-xl text-center mb-3">
         {{ forecastErrorMessage }}
@@ -21,6 +23,7 @@
       </button>
     </div>
   </div>
+  <!-- FORECAST DATA LOADED -->
   <div v-else>
     <h1 class="mb-3 text-xl sm:text-2xl text-center">
       <span>{{ selectedCity.city_name }}</span>
@@ -35,11 +38,10 @@
 
 <script setup lang="ts">
 import { computed } from "vue";
-import { useAppStore } from "../store/app.store";
-
-import WeatherNexDays from "../components/WeatherNexDays.vue";
-import WeatherNextHours from "../components/WeatherNextHours.vue";
 import { ArrowPathIcon } from "@heroicons/vue/24/solid";
+import { useAppStore } from "../store/app.store";
+import WeatherNexDays from "../components/weather/WeatherNexDays.vue";
+import WeatherNextHours from "../components/weather/WeatherNextHours.vue";
 
 // DATA
 

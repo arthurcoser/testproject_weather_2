@@ -11,16 +11,15 @@
 
 <script setup lang="ts">
 import { computed } from "vue";
-import { OpenWeatherApiForecastResponseData } from "../types/open-weather.types";
-import { WeatherHourData } from "../types/custom.types";
-import WeatherHour from "../components/WeatherHour.vue";
-import { useAppStore } from "../store/app.store";
+import { useAppStore } from "../../store/app.store";
+import { OpenWeatherApiForecastResponseData } from "../../types/open-weather.types";
+import { WeatherHourData } from "../../types/custom.types";
+import WeatherHour from "./WeatherHour.vue";
 
 // PROPS
 export interface Props {
   forecastData: OpenWeatherApiForecastResponseData;
 }
-
 const props = defineProps<Props>();
 
 // DATA
