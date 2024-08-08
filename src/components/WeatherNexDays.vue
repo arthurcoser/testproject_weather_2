@@ -58,7 +58,7 @@ const nextDays = computed<WeatherDayData[]>(() => {
   let keys = Object.keys(days);
   if (keys.length > 5) {
     const indexToday = keys.indexOf(todayKey);
-    keys = keys.slice(indexToday, indexToday + 5);
+    keys = keys.slice(indexToday + 1, indexToday + 6);
   }
   return keys.map((key) => {
     const items = days[key];
