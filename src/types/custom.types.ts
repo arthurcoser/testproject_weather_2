@@ -7,3 +7,14 @@ export interface City {
   lat: number;
   lon: number;
 }
+
+export interface WeatherHourData {
+  main: string;
+  description: string;
+  icon: string;
+  dt: number;
+  temp: number;
+  tempMin: number;
+  tempMax: number;
+  humidity: number;
+}

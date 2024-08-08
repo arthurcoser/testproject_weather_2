@@ -1,6 +1,6 @@
 <template>
   <div class="flex flex-col min-h-screen">
-    <div class="bg-blue-500 text-white py-1">
+    <div class="bg-blue-500 text-white py-1 px-3">
       <div class="container mx-auto h-full flex items-center justify-between">
         <div class="text-xl font-medium">{{ appTitle }}</div>
         <button class="hover:bg-black/10 rounded px-3 py-1">Search</button>
@@ -21,12 +21,12 @@
         </button>
       </div>
     </div>
-    <div class="flex-grow">
+    <div class="flex-grow px-3 bg-gradient-to-b from-indigo-200 to-amber-200">
       <div class="container mx-auto py-3">
         <router-view />
       </div>
     </div>
-    <div class="bg-blue-500 text-white py-1">
+    <div class="bg-blue-500 text-white py-1 px-3">
       <div class="container mx-auto h-full flex items-center justify-end">
         Last updated on
         {{

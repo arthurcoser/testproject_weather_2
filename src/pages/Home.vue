@@ -1,44 +1,11 @@
 <template>
-  <div class="bg-blue-100 mb-4">
-    <h1 class="text-2xl">Current weather</h1>
-    <div v-if="weatherData">
-      <div>{{ weatherData.main.temp.toFixed(0) }}°C</div>
-      <div class="text-sm text-blue-900">
-        {{ weatherData.main.humidity.toFixed(0) }}%
-      </div>
-      <img
-        :src="iconSrc(weatherData.weather?.[0].icon, '@2x')"
-        :alt="weatherData.weather?.[0].description"
-      />
-      <div>
-        {{
-          new Date(
-            weatherData.dt * 1000 + weatherData.timezone * 1000,
-          ).toLocaleTimeString("en", {
-            timeZone: "UTC",
-            hour: "2-digit",
-            minute: "2-digit",
-            hour12: true,
-          })
-        }}
-      </div>
-      <div class="text-sm">
-        {{
-          new Date(
-            weatherData.dt * 1000 + weatherData.timezone * 1000,
-          ).toLocaleDateString("en", {
-            timeZone: "UTC",
-            month: "short",
-            day: "2-digit",
-          })
-        }}
+  <div class="flex flex-col divide-y mb-4 pt-2 shadow rounded bg-white">
+    <h1 class="text-2xl px-3 mb-2">Next hours</h1>
+    <div class="flex flex-nowrap overflow-x-auto divide-x">
+      <div v-for="data in nextHours" :key="data.dt" class="my-4">
+        <WeatherHour :data="data" class="mx-2" />
       </div>
     </div>
-    <!-- <pre>{{ weatherData }}</pre> -->
-  </div>
-  <div class="bg-yellow-100 mb-4">
-    <h1 class="text-2xl">Forecast 5d 3h</h1>
-    <!-- <pre>{{ forecastData }}</pre> -->
   </div>
 </template>
 
@@ -50,6 +17,8 @@ import {
   OpenWeatherApiForecastResponseData,
   OpenWeatherApiWeatherResponseData,
 } from "../types/open-weather.types";
+import { WeatherHourData } from "../types/custom.types";
+import WeatherHour from "../components/WeatherHour.vue";
 
 // DATA
 
@@ -57,6 +26,20 @@ const citiesStore = useCitiesStore();
 
 const weatherData = ref<OpenWeatherApiWeatherResponseData | null>(null);
 const forecastData = ref<OpenWeatherApiForecastResponseData | null>(null);
+const nextHours = computed<WeatherHourData[]>(() => {
+  if (!forecastData.value) return [];
+  const dtTimezone = forecastData.value.city.timezone * 1000;
+  return forecastData.value.list.slice(0, 8).map((item) => ({
+    main: item.weather[0].main,
+    description: item.weather[0].description,
+    icon: item.weather[0].icon,
+    dt: item.dt * 1000 + dtTimezone,
+    temp: item.main.temp,
+    tempMin: item.main.temp_min,
+    tempMax: item.main.temp_max,
+    humidity: item.main.humidity,
+  }));
+});
 
 const selectedCity = computed(() => citiesStore.selectedCity);
 
@@ -75,10 +58,6 @@ onMounted(() => {
 });
 
 // METHODS
-
-function iconSrc(icon: string, size = "") {
-  return `https://openweathermap.org/img/wn/${icon}${size}.png`;
-}
 
 async function getWeather(options: { lat: number; lon: number }) {
   const { lat, lon } = options;
