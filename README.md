@@ -30,10 +30,11 @@ The OpenWeather API free tier only allows for two APIs:
 - Current weather
 - Forecast for the next 5 days every 3 hours (at a max count of 40)
 
-So _Next hours_ functionality only shows every three hours and the _Next days_ gets an "average" of the day from the data of every three hours.
+Therefore, the "Next hours" functionality only shows updates every three hours, and the "Next days" section aggregates daily data from the available information.
 
 ## Next steps
 
-- Put a card for the current weather of the city
-- Give the option for the user to change units and locale
-- Store forecast data with city data, so it can be reused without calling the API every time
+- Add a card displaying the current weather for the selected city
+- Provide an option to bookmark new cities
+- Provide an option to change units and locale
+- Store forecast data with city information to reuse without calling the API each time (reload if the data is too old or if the user refreshes it)
