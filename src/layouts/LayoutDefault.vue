@@ -21,9 +21,13 @@
         </button>
       </div>
     </div>
-    <div class="flex-grow px-3 bg-gradient-to-b from-indigo-200 to-amber-200">
-      <div class="container mx-auto py-3">
-        <router-view />
+    <div
+      class="flex-grow lg:flex lg:justify-center px-3 bg-gradient-to-b from-indigo-200 to-amber-200"
+    >
+      <div class="max-w-4xl">
+        <div class="container mx-auto py-3">
+          <router-view />
+        </div>
       </div>
     </div>
     <div class="bg-blue-500 text-white py-1 px-3">

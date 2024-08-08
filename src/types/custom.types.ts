@@ -17,4 +17,15 @@ export interface WeatherHourData {
   tempMin: number;
   tempMax: number;
   humidity: number;
+  units: "standard" | "metric" | "imperial";
+}
+
+export interface WeatherDayData {
+  main: string;
+  description: string;
+  icon: string;
+  day: string;
+  tempMin: number;
+  tempMax: number;
+  units: "standard" | "metric" | "imperial";
 }
