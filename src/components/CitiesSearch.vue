@@ -15,7 +15,7 @@
     <InputCombobox
       v-if="showSearchBar"
       ref="inputSearch"
-      :items="citiesStore.itemsCities"
+      :items="appStore.itemsCities"
       item-title="city_name"
       @update:model-value="onUpdateModelValue"
     >
@@ -31,7 +31,7 @@
 
 <script setup lang="ts">
 import { ref } from "vue";
-import { useCitiesStore } from "../store/cities.store";
+import { useAppStore } from "../store/app.store";
 import InputCombobox from "./input/InputCombobox.vue";
 import { City } from "../types/custom.types";
 import { MagnifyingGlassIcon } from "@heroicons/vue/24/solid";
@@ -39,7 +39,7 @@ import { MagnifyingGlassIcon } from "@heroicons/vue/24/solid";
 // DATA
 const inputSearch = ref<HTMLElement | null>();
 
-const citiesStore = useCitiesStore();
+const appStore = useAppStore();
 
 const showSearchBar = ref(false);
 
@@ -50,7 +50,7 @@ function onUpdateModelValue(city: City | null) {
     showSearchBar.value = false;
     return;
   }
-  citiesStore.selectCity(city.city_id);
+  appStore.selectCity(city.city_id);
   showSearchBar.value = false;
 }
 </script>

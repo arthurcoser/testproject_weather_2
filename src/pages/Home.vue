@@ -12,7 +12,7 @@
       </div>
       <button
         class="text-blue-700 hover:underline"
-        @click="citiesStore.updateForecast()"
+        @click="appStore.updateForecast()"
       >
         <div class="flex items-center">
           <ArrowPathIcon class="size-4 mr-1" />
@@ -35,7 +35,7 @@
 
 <script setup lang="ts">
 import { computed } from "vue";
-import { useCitiesStore } from "../store/cities.store";
+import { useAppStore } from "../store/app.store";
 
 import WeatherNexDays from "../components/WeatherNexDays.vue";
 import WeatherNextHours from "../components/WeatherNextHours.vue";
@@ -43,9 +43,9 @@ import { ArrowPathIcon } from "@heroicons/vue/24/solid";
 
 // DATA
 
-const citiesStore = useCitiesStore();
+const appStore = useAppStore();
 
-const selectedCity = computed(() => citiesStore.selectedCity);
-const forecastData = computed(() => citiesStore.forecastData);
-const forecastErrorMessage = computed(() => citiesStore.forecastErrorMessage);
+const selectedCity = computed(() => appStore.selectedCity);
+const forecastData = computed(() => appStore.forecastData);
+const forecastErrorMessage = computed(() => appStore.forecastErrorMessage);
 </script>

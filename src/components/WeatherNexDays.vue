@@ -17,7 +17,7 @@ import { max, maxBy, minBy, uniq } from "lodash";
 import { OpenWeatherApiForecastResponseData } from "../types/open-weather.types";
 import { WeatherDayData } from "../types/custom.types";
 import WeatherDay from "../components/WeatherDay.vue";
-import { useCitiesStore } from "../store/cities.store";
+import { useAppStore } from "../store/app.store";
 
 // PROPS
 export interface Props {
@@ -28,7 +28,7 @@ const props = defineProps<Props>();
 
 // DATA
 
-const citiesStore = useCitiesStore();
+const appStore = useAppStore();
 
 const nextDays = computed<WeatherDayData[]>(() => {
   if (!props.forecastData) return [];
@@ -80,7 +80,7 @@ const nextDays = computed<WeatherDayData[]>(() => {
       day: key,
       tempMin,
       tempMax,
-      units: citiesStore.forecastUnits,
+      units: appStore.forecastUnits,
     };
   });
 });

@@ -4,15 +4,15 @@
 
 <script setup lang="ts">
 import { onMounted } from "vue";
-import { useCitiesStore } from "./store/cities.store";
+import { useAppStore } from "./store/app.store";
 
-const citiesStore = useCitiesStore();
+const appStore = useAppStore();
 
 // ON MOUNTED
 onMounted(() => {
   // select first default city when starting
-  citiesStore.selectCity(citiesStore.defaultCities[0].city_id);
+  appStore.selectCity(appStore.defaultCities[0].city_id);
   // load cities from csv file for search bar
-  citiesStore.loadItemsCities();
+  appStore.loadItemsCities();
 });
 </script>

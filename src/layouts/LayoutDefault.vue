@@ -17,13 +17,13 @@
     <div class="bg-neutral-100">
       <div class="container mx-auto">
         <button
-          v-for="city in citiesStore.defaultCities"
+          v-for="city in appStore.defaultCities"
           :key="city.city_id"
           :class="[
             'py-1 px-3 border-b-2 hover:bg-black/5',
-            `${citiesStore.selectedCity?.city_id === city.city_id ? 'border-b-orange-500 text-neutral-950' : 'border-b-neutral-100 text-neutral-950/50'}`,
+            `${appStore.selectedCity?.city_id === city.city_id ? 'border-b-orange-500 text-neutral-950' : 'border-b-neutral-100 text-neutral-950/50'}`,
           ]"
-          @click="citiesStore.selectCity(city.city_id)"
+          @click="appStore.selectCity(city.city_id)"
         >
           {{ city.city_name }}
         </button>
@@ -44,22 +44,19 @@
       <div class="container mx-auto h-full flex items-center justify-end">
         <div
           class="flex items-center cursor-pointer"
-          @click="citiesStore.updateForecast()"
+          @click="appStore.updateForecast()"
         >
           <ArrowPathIcon class="size-4 mr-1" />
           <span>
             Last updated on
             {{
-              (citiesStore.forecastUpdatedAt || new Date()).toLocaleString(
-                "en",
-                {
-                  month: "short",
-                  day: "2-digit",
-                  hour: "2-digit",
-                  minute: "2-digit",
-                  hour12: false,
-                },
-              )
+              (appStore.forecastUpdatedAt || new Date()).toLocaleString("en", {
+                month: "short",
+                day: "2-digit",
+                hour: "2-digit",
+                minute: "2-digit",
+                hour12: false,
+              })
             }}
           </span>
         </div>
@@ -69,12 +66,12 @@
 </template>
 
 <script setup lang="ts">
-import { useCitiesStore } from "../store/cities.store";
+import { useAppStore } from "../store/app.store";
 import CitiesSearch from "../components/CitiesSearch.vue";
 import { ArrowPathIcon } from "@heroicons/vue/24/solid";
 
 // DATA
 
 const appTitle = import.meta.env.VITE_APP_TITLE;
-const citiesStore = useCitiesStore();
+const appStore = useAppStore();
 </script>

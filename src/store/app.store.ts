@@ -34,7 +34,7 @@ const defaultCities: City[] = [
   },
 ];
 
-export const useCitiesStore = defineStore("cities", {
+export const useAppStore = defineStore("app", {
   state: () => ({
     selectedCity: null as City | null,
     defaultCities: defaultCities,
@@ -73,25 +73,31 @@ export const useCitiesStore = defineStore("cities", {
       this.updateForecast();
     },
     async loadItemsCities() {
-      const response = await fetch("/cities_20000.csv");
-      const csvText = await response.text();
-      this.itemsCities = await new Promise<City[]>((resolve, reject) =>
-        Papa.parse<City>(csvText, {
-          delimiter: ",",
-          dynamicTyping: true,
-          header: true,
-          complete: (results) => {
-            resolve(
-              results.data.sort((a, b) =>
-                a.city_name
-                  .toLocaleLowerCase()
-                  .localeCompare(b.city_name.toLocaleLowerCase()),
-              ),
-            );
-          },
-          error: reject,
-        }),
-      );
+      try {
+        const response = await fetch("/cities_20000.csv");
+        const csvText = await response.text();
+        this.itemsCities = await new Promise<City[]>((resolve, reject) =>
+          Papa.parse<City>(csvText, {
+            delimiter: ",",
+            dynamicTyping: true,
+            header: true,
+            complete: (results) => {
+              resolve(
+                results.data.sort((a, b) =>
+                  a.city_name
+                    .toLocaleLowerCase()
+                    .localeCompare(b.city_name.toLocaleLowerCase()),
+                ),
+              );
+            },
+            error: reject,
+          }),
+        );
+      } catch (err) {
+        // rollback to default cities if there's an error
+        console.error(err);
+        this.itemsCities = defaultCities;
+      }
     },
   },
 });

@@ -14,7 +14,7 @@ import { computed } from "vue";
 import { OpenWeatherApiForecastResponseData } from "../types/open-weather.types";
 import { WeatherHourData } from "../types/custom.types";
 import WeatherHour from "../components/WeatherHour.vue";
-import { useCitiesStore } from "../store/cities.store";
+import { useAppStore } from "../store/app.store";
 
 // PROPS
 export interface Props {
@@ -25,7 +25,7 @@ const props = defineProps<Props>();
 
 // DATA
 
-const citiesStore = useCitiesStore();
+const appStore = useAppStore();
 
 const nextHours = computed<WeatherHourData[]>(() => {
   if (!props.forecastData) return [];
@@ -39,7 +39,7 @@ const nextHours = computed<WeatherHourData[]>(() => {
     tempMin: item.main.temp_min,
     tempMax: item.main.temp_max,
     humidity: item.main.humidity,
-    units: citiesStore.forecastUnits,
+    units: appStore.forecastUnits,
   }));
 });
 </script>
