@@ -1,9 +1,9 @@
 <template>
   <div class="flex flex-col min-h-screen">
     <!-- APP BAR -->
-    <div class="bg-blue-500 py-1 px-3">
+    <div class="bg-blue-500 h-12 py-1 px-3">
       <div class="container mx-auto h-full">
-        <div class="flex items-center justify-between">
+        <div class="flex items-center justify-between h-full">
           <div class="text-xl font-medium text-white text-nowrap">
             {{ appTitle }}
           </div>
@@ -17,11 +17,11 @@
     <div class="bg-neutral-100">
       <div class="container mx-auto">
         <button
-          v-for="city in defaultCities"
+          v-for="city in citiesStore.defaultCities"
           :key="city.city_id"
           :class="[
             'py-1 px-3 border-b-2 hover:bg-black/5',
-            `${selectedCity.city_id === city.city_id ? 'border-b-orange-500 text-neutral-950' : 'border-b-neutral-100 text-neutral-950/50'}`,
+            `${citiesStore.selectedCity?.city_id === city.city_id ? 'border-b-orange-500 text-neutral-950' : 'border-b-neutral-100 text-neutral-950/50'}`,
           ]"
           @click="citiesStore.selectCity(city.city_id)"
         >
@@ -40,31 +40,41 @@
       </div>
     </div>
     <!-- FOOTER -->
-    <div class="bg-blue-500 text-white py-1 px-3">
+    <div class="bg-blue-500 h-8 text-white py-1 px-3">
       <div class="container mx-auto h-full flex items-center justify-end">
-        Last updated on
-        {{
-          new Date().toLocaleString("en", {
-            month: "short",
-            day: "2-digit",
-            hour: "2-digit",
-            minute: "2-digit",
-            hour12: false,
-          })
-        }}
+        <div
+          class="flex items-center cursor-pointer"
+          @click="citiesStore.updateForecast()"
+        >
+          <ArrowPathIcon class="size-4 mr-1" />
+          <span>
+            Last updated on
+            {{
+              (citiesStore.forecastUpdatedAt || new Date()).toLocaleString(
+                "en",
+                {
+                  month: "short",
+                  day: "2-digit",
+                  hour: "2-digit",
+                  minute: "2-digit",
+                  hour12: false,
+                },
+              )
+            }}
+          </span>
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { computed } from "vue";
 import { useCitiesStore } from "../store/cities.store";
 import CitiesSearch from "../components/CitiesSearch.vue";
+import { ArrowPathIcon } from "@heroicons/vue/24/solid";
 
 // DATA
+
 const appTitle = import.meta.env.VITE_APP_TITLE;
 const citiesStore = useCitiesStore();
-const selectedCity = computed(() => citiesStore.selectedCity);
-const defaultCities = computed(() => citiesStore.defaultCities);
 </script>

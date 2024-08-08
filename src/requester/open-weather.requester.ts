@@ -18,8 +18,13 @@ async function currentWeather(params: OpenWeatherApiWeatherParameters) {
   const response = await fetch(
     `https://api.openweathermap.org/data/2.5/weather?${urlSearchParams}`,
   );
-  const data: OpenWeatherApiWeatherResponseData = await response.json();
-  return data;
+  const data = await response.json();
+  if (response.status >= 400) {
+    throw new Error(
+      data?.message || "Unknowm error while retrieving current weather data",
+    );
+  }
+  return data as OpenWeatherApiWeatherResponseData;
 }
 
 async function forecast5d3h(params: OpenWeatherApiForecastParameters) {
@@ -43,8 +48,13 @@ async function forecast5d3h(params: OpenWeatherApiForecastParameters) {
   const response = await fetch(
     `https://api.openweathermap.org/data/2.5/forecast?${urlSearchParams}`,
   );
-  const data: OpenWeatherApiForecastResponseData = await response.json();
-  return data;
+  const data = await response.json();
+  if (response.status >= 400) {
+    throw new Error(
+      data?.message || "Unknowm error while retrieving forecast data",
+    );
+  }
+  return data as OpenWeatherApiForecastResponseData;
 }
 
 export default { currentWeather, forecast5d3h };

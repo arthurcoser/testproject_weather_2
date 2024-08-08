@@ -1,6 +1,8 @@
 import { defineStore } from "pinia";
 import { City } from "../types/custom.types";
 import Papa from "papaparse";
+import { OpenWeatherApiForecastResponseData } from "../types/open-weather.types";
+import requester from "../requester";
 
 const defaultCities: City[] = [
   {
@@ -34,19 +36,41 @@ const defaultCities: City[] = [
 
 export const useCitiesStore = defineStore("cities", {
   state: () => ({
-    selectedCity: defaultCities[0],
+    selectedCity: null as City | null,
     defaultCities: defaultCities,
     itemsCities: defaultCities,
+    forecastData: null as OpenWeatherApiForecastResponseData | null,
+    forecastUpdatedAt: null as Date | null,
+    forecastErrorMessage: "",
   }),
   actions: {
+    async updateForecast() {
+      this.forecastData = null;
+      this.forecastErrorMessage = "";
+      if (!this.selectedCity) {
+        this.forecastErrorMessage = "Select a city first!";
+        return;
+      }
+      try {
+        this.forecastData = await requester.openWeather.forecast5d3h({
+          lat: this.selectedCity.lat,
+          lon: this.selectedCity.lon,
+        });
+      } catch (err: any) {
+        this.forecastErrorMessage = err?.message || err?.toString();
+      } finally {
+        this.forecastUpdatedAt = new Date();
+      }
+    },
     selectCity(cityId: number) {
       const city = this.itemsCities.find((c) => c.city_id === cityId);
       if (!city) {
         return;
       }
       this.selectedCity = city;
+      this.updateForecast();
     },
-    async getItemsCities() {
+    async loadItemsCities() {
       const response = await fetch("/cities_20000.csv");
       const csvText = await response.text();
       this.itemsCities = await new Promise<City[]>((resolve, reject) =>

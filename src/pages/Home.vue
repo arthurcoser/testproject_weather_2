@@ -1,6 +1,25 @@
 <template>
-  <div v-if="!forecastData">
-    <div class="text-neutral-700 text-xl">Loading...</div>
+  <div v-if="!selectedCity || !forecastData">
+    <div
+      v-if="!forecastErrorMessage"
+      class="text-neutral-700 text-md sm:text-xl text-center"
+    >
+      Loading...
+    </div>
+    <div v-else class="flex flex-col items-center justify-center">
+      <div class="text-red-700 text-md sm:text-xl text-center mb-3">
+        {{ forecastErrorMessage }}
+      </div>
+      <button
+        class="text-blue-700 hover:underline"
+        @click="citiesStore.updateForecast()"
+      >
+        <div class="flex items-center">
+          <ArrowPathIcon class="size-4 mr-1" />
+          <span>Try again</span>
+        </div>
+      </button>
+    </div>
   </div>
   <div v-else>
     <h1 class="mb-3 text-xl sm:text-2xl text-center">
@@ -15,63 +34,18 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, ref, watch } from "vue";
-import requester from "../requester";
+import { computed } from "vue";
 import { useCitiesStore } from "../store/cities.store";
-import {
-  OpenWeatherApiForecastResponseData,
-  OpenWeatherApiWeatherResponseData,
-} from "../types/open-weather.types";
 
 import WeatherNexDays from "../components/WeatherNexDays.vue";
 import WeatherNextHours from "../components/WeatherNextHours.vue";
+import { ArrowPathIcon } from "@heroicons/vue/24/solid";
 
 // DATA
 
 const citiesStore = useCitiesStore();
 
-const weatherData = ref<OpenWeatherApiWeatherResponseData | null>(null);
-const forecastData = ref<OpenWeatherApiForecastResponseData | null>(null);
-
 const selectedCity = computed(() => citiesStore.selectedCity);
-
-watch(
-  () => selectedCity.value,
-  (newVal) => {
-    getWeather({ lat: newVal.lat, lon: newVal.lon });
-    getForecast({ lat: newVal.lat, lon: newVal.lon });
-  },
-);
-
-// ON MOUNTED
-onMounted(() => {
-  getWeather({ lat: selectedCity.value.lat, lon: selectedCity.value.lon });
-  getForecast({ lat: selectedCity.value.lat, lon: selectedCity.value.lon });
-});
-
-// METHODS
-
-async function getWeather(options: { lat: number; lon: number }) {
-  const { lat, lon } = options;
-  try {
-    weatherData.value = await requester.openWeather.currentWeather({
-      lat,
-      lon,
-    });
-  } catch (err) {
-    console.error(err);
-  }
-}
-
-async function getForecast(options: { lat: number; lon: number }) {
-  const { lat, lon } = options;
-  try {
-    forecastData.value = await requester.openWeather.forecast5d3h({
-      lat,
-      lon,
-    });
-  } catch (err) {
-    console.error(err);
-  }
-}
+const forecastData = computed(() => citiesStore.forecastData);
+const forecastErrorMessage = computed(() => citiesStore.forecastErrorMessage);
 </script>

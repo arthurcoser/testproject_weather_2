@@ -30,7 +30,7 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref } from "vue";
+import { ref } from "vue";
 import { useCitiesStore } from "../store/cities.store";
 import InputCombobox from "./input/InputCombobox.vue";
 import { City } from "../types/custom.types";
@@ -42,11 +42,6 @@ const inputSearch = ref<HTMLElement | null>();
 const citiesStore = useCitiesStore();
 
 const showSearchBar = ref(false);
-
-// ON MOUNTED
-onMounted(() => {
-  citiesStore.getItemsCities();
-});
 
 // METHODS
 
